@@ -1,21 +1,533 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="DVigezzi — Personal portfolio, professional services and creative work.">
-  <title>DVigezzi | Personal Portfolio</title>
+  <meta name="description" content="DVigezzi — IT Systems Administrator portfolio, technical skills, experience and professional background.">
+  <meta name="theme-color" content="#090909">
+  <title>DVigezzi | IT Systems Administrator</title>
   <style>
     :root {
-      --dark: #111827;
-      --ink: #1f2937;
-      --muted: #6b7280;
-      --accent: #2563eb;
-      --light: #f8fafc;
-      --white: #ffffff;
+      color-scheme: dark;
+      --bg: #090909;
+      --bg-soft: #111111;
+      --surface: #151515;
+      --surface-hover: #1c1c1c;
+      --ink: #f5f5f5;
+      --muted: #a3a3a3;
+      --line: rgba(255,255,255,.11);
+      --accent: #ef3038;
+      --accent-soft: rgba(239,48,56,.12);
+      --max-width: 1120px;
+      --radius: 18px;
+      --shadow: 0 24px 70px rgba(0,0,0,.4);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 85% 0%, rgba(239,48,56,.10), transparent 34rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .wrap { width: min(var(--max-width), calc(100% - 48px)); margin-inline: auto; }
+    .skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 14px; color: white; background: var(--accent); border-radius: 8px; }
+    .skip-link:focus { top: 12px; }
+    .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: rgba(9,9,9,.86); backdrop-filter: blur(18px); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-size: 1.05rem; font-weight: 800; letter-spacing: -.045em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: .91rem; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); }
+    .nav-cta { padding: 10px 16px; border: 1px solid rgba(239,48,56,.55); border-radius: 999px; color: var(--ink) !important; }
+    .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); cursor: pointer; }
 
-    html { scroll-behavior: smooth; }
+    .hero { padding: 122px 0 112px; max-width: var(--max-width); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; color: #ff646b; font-size: .78rem; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 26px; height: 1px; background: currentColor; }
+    h1 { max-width: 900px; font-size: clamp(3.2rem, 8vw, 6.4rem); line-height: .98; letter-spacing: -.075em; font-weight: 780; }
+    h1 .accent { color: var(--accent); }
+    .hero-copy { max-width: 700px; margin-top: 28px; color: var(--muted); font-size: clamp(1.02rem, 1.7vw, 1.2rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); font-size: .92rem; font-weight: 700; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { color: #fff; border-color: var(--accent); background: var(--accent); }
+    .button-primary:hover { background: #d9232b; }
+    .button-secondary { background: var(--surface); color: var(--ink); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 48px; }
+    .meta-pill { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: #c8c8c8; background: rgba(255,255,255,.025); font-size: .82rem; }
+
+    .section { padding: 88px 0; border-top: 1px solid var(--line); }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 38px; }
+    .section-kicker { color: #ff646b; font-size: .75rem; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { margin-top: 10px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.08; letter-spacing: -.055em; }
+    .section-intro { max-width: 470px; color: var(--muted); }
+    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; }
+    .panel { padding: 30px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .panel p { color: var(--muted); }
+    .panel p + p { margin-top: 16px; }
+    .callout { margin-top: 22px; padding: 16px 18px; border-left: 3px solid var(--accent); background: var(--accent-soft); color: #e8e8e8; border-radius: 0 10px 10px 0; font-size: .92rem; }
+    .focus-list { display: grid; gap: 12px; }
+    .focus-item { display: flex; gap: 14px; align-items: flex-start; padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
+    .focus-mark { flex: 0 0 9px; height: 9px; margin-top: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 16px rgba(239,48,56,.5); }
+    .focus-item strong { display: block; margin-bottom: 2px; font-size: .95rem; }
+    .focus-item span { color: var(--muted); font-size: .87rem; }
+
+    .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .skill-card { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .skill-card h3 { margin-bottom: 12px; font-size: 1.05rem; }
+    .skill-card p { margin-bottom: 16px; color: var(--muted); font-size: .88rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { padding: 6px 10px; border: 1px solid rgba(239,48,56,.27); border-radius: 7px; color: #f0b5b7; background: var(--accent-soft); font-size: .78rem; }
+
+    .experience-list { display: grid; gap: 16px; }
+    .experience { display: grid; grid-template-columns: 190px 1fr; gap: 26px; padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .experience-date { color: #ff646b; font-size: .84rem; font-weight: 700; }
+    .experience h3 { margin-bottom: 4px; font-size: 1.12rem; }
+    .experience .company { margin-bottom: 12px; color: var(--muted); font-size: .9rem; }
+    .experience p { color: var(--muted); font-size: .92rem; }
+    .experience ul { margin: 12px 0 0 18px; color: var(--muted); font-size: .9rem; }
+    .experience li + li { margin-top: 5px; }
+
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .cert { padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .cert strong { display: block; margin-bottom: 5px; }
+    .cert span { color: var(--muted); font-size: .86rem; }
+
+    .contact-panel { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: clamp(28px, 5vw, 54px); border: 1px solid rgba(239,48,56,.32); border-radius: 24px; background: linear-gradient(115deg, rgba(239,48,56,.13), rgba(255,255,255,.025)); }
+    .contact-panel p { max-width: 550px; margin-top: 12px; color: var(--muted); }
+    footer { padding: 30px 0 42px; color: #858585; font-size: .83rem; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .socials { display: flex; gap: 18px; }
+    .socials a:hover { color: var(--ink); }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    :focus-visible { outline: 2px solid #ff646b; outline-offset: 4px; }
+
+
+    /* Contact modal */
+    .modal-open { overflow: hidden; }
+    .contact-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(8px);
+    }
+    .contact-modal.open { display: flex; }
+    .contact-dialog {
+      position: relative;
+      width: min(100%, 620px);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      padding: clamp(24px, 5vw, 42px);
+      border: 1px solid rgba(239,48,56,.35);
+      border-radius: 22px;
+      background: #111;
+      box-shadow: 0 30px 90px rgba(0,0,0,.65);
+    }
+    .contact-close {
+      position: absolute;
+      top: 14px;
+      right: 17px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 1.7rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .contact-dialog h2 { margin: 8px 44px 0 0; }
+    .contact-dialog-intro { margin: 10px 0 24px; color: var(--muted); }
+    .contact-form { display: grid; gap: 15px; }
+    .contact-form label {
+      display: grid;
+      gap: 7px;
+      color: #e8e8e8;
+      font-size: .9rem;
+      font-weight: 650;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      min-height: 46px;
+      padding: 11px 13px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 10px;
+      background: #090909;
+      color: var(--ink);
+      font: inherit;
+    }
+    .contact-form textarea { min-height: 140px; resize: vertical; }
+    .contact-form input:focus, .contact-form textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .contact-form button:disabled { opacity: .65; cursor: wait; transform: none; }
+    .form-status { min-height: 1.4em; font-size: .9rem; }
+    .form-status.success { color: #75d69a; }
+    .form-status.error { color: #ff777d; }
+    .contact-privacy { color: var(--muted); font-size: .78rem; }
+    .hp-field {
+      position: absolute !important;
+      left: -10000px !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+    }
+    @media (max-width: 620px) {
+      .contact-modal { padding: 12px; }
+      .contact-dialog { max-height: calc(100vh - 24px); }
+    }
+
+    @media (max-width: 800px) {
+      .hero { padding-top: 92px; }
+      .skill-grid, .cert-grid { grid-template-columns: 1fr 1fr; }
+      .section-heading { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(var(--max-width), calc(100% - 32px)); }
+      .nav { min-height: 68px; }
+      .menu-toggle { display: inline-grid; place-items: center; }
+      .nav-links { position: absolute; top: 68px; left: 16px; right: 16px; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: #111; box-shadow: var(--shadow); }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 12px; }
+      .nav-cta { text-align: center; margin-top: 5px; }
+      .hero { padding: 76px 0 70px; }
+      .section { padding: 68px 0; }
+      .about-grid, .skill-grid, .cert-grid { grid-template-columns: 1fr; }
+      .experience { grid-template-columns: 1fr; gap: 8px; }
+      .contact-panel { align-items: start; flex-direction: column; }
+      .footer-inner { align-items: start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="DVigezzi home">D<span>.</span>Vigezzi</a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links">☰</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">Profile</a></li>
+        <li><a href="#skills">Technical skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a class="nav-cta contact-trigger" href="#contact">Contact ↗</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" id="home">
+      <div class="reveal">
+        <p class="eyebrow">IT Operations · Infrastructure · Support</p>
+        <h1>IT Systems<br><span class="accent">Administrator</span></h1>
+        <p class="hero-copy">
+          I'm <strong>Daniel Vigezzi</strong>, an IT Systems Administrator focused on keeping
+          technology reliable, secure and working smoothly. This portfolio is a place to explore my technical skills, areas of knowledge, professional experience, and ongoing development.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#skills">Explore technical skills <span aria-hidden="true">↘</span></a>
+          <a class="button button-secondary contact-trigger" href="#contact">Contact me</a>
+        </div>
+        <div class="hero-meta" aria-label="Professional focus">
+          <span class="meta-pill">Systems administration</span>
+          <span class="meta-pill">Infrastructure</span>
+          <span class="meta-pill">IT operations</span>
+          <span class="meta-pill">Troubleshooting</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <div><p class="section-kicker">Professional profile</p><h2>Reliable systems<br>Practical solutions</h2></div>
+          <p class="section-intro">A professional overview of my approach to IT administration, service reliability and technical problem-solving.</p>
+        </div>
+        <div class="about-grid">
+          <div class="panel reveal">
+            <p>As an IT Systems Administrator, I work in the space where infrastructure, users and business operations meet. I value dependable systems, clear documentation, thoughtful security practices and resolving technical issues methodically.</p>
+            <p>This portfolio is intended to provide an overview of my capabilities and experience. The technical areas below can be tailored to reflect the platforms, tools and environments I have worked with directly.</p>
+            <div class="callout">My focus: dependable IT services, secure infrastructure and a positive experience for the people who rely on technology every day.</div>
+          </div>
+          <div class="focus-list reveal">
+            <div class="focus-item"><span class="focus-mark"></span><div><strong>Infrastructure & Systems</strong><span>Administration, maintenance, monitoring and lifecycle support.</span></div></div>
+            <div class="focus-item"><span class="focus-mark"></span><div><strong>Identity & Access</strong><span>User accounts, permissions, authentication and access management.</span></div></div>
+            <div class="focus-item"><span class="focus-mark"></span><div><strong>Security & Continuity</strong><span>System hardening, patching, backups and recovery readiness.</span></div></div>
+            <div class="focus-item"><span class="focus-mark"></span><div><strong>Service & Support</strong><span>Troubleshooting, documentation and end-user technical support.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <div><p class="section-kicker">Technical capabilities</p><h2>Skills & knowledge</h2></div>
+          <p class="section-intro">I commonly utilize all of the skills and tools shown below.</p>
+        </div>
+        <div class="skill-grid">
+          <article class="skill-card reveal">
+            <h3>Systems & servers</h3>
+            <p>Server administration, operating systems, maintenance and troubleshooting.</p>
+            <div class="tags"><span class="tag">Windows Server: 2012 - 2022</span><span class="tag">vCenter Administration</span><span class="tag">DELL PowerEdge</span><span class="tag">Patch Management</span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Identity & productivity</h3>
+            <p>Directory services, user lifecycle, permissions and collaboration platforms.</p>
+            <div class="tags"><span class="tag">Active Directory</span><span class="tag">Group Policy</span><span class="tag">Microsoft 365</span><span class="tag">Entra ID</span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Networking</h3>
+            <p>Network services, connectivity, infrastructure fundamentals and fault isolation.</p>
+            <div class="tags"><span class="tag">DNS</span><span class="tag">DHCP</span><span class="tag">TCP/IP</span><span class="tag">VLANs</span><span class="tag">VPN</span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Virtualization & cloud</h3>
+            <p>Virtual workloads, hosted services, resource management and cloud operations.</p>
+            <div class="tags"><span class="tag">Hyper-V</span><span class="tag">VMWare</span><span class="tag">Azure</span><span class="tag">Cloud Services</span><span class="tag">VM management</span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Security & continuity</h3>
+            <p>Protective controls, endpoint security, backup operations and recovery planning.</p>
+            <div class="tags"><span class="tag">Endpoint Protection</span><span class="tag">MS Defender XDR</span><span class="tag">Veeam Backup & Recovery</span><span class="tag">MFA</span><span class="tag">Security patching</span></div>
+          </article>
+          <article class="skill-card reveal">
+            <h3>Automation & operations</h3>
+            <p>Repeatable administration, scripting, monitoring and operational documentation.</p>
+            <div class="tags"><span class="tag">PowerShell Scripting</span><span class="tag">ConnectWise Automate Monitoring</span><span class="tag">ITGlue documentation</span><span class="tag">ConnectWise Manage Ticketing</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <div><p class="section-kicker">Career history</p><h2>Professional experience</h2></div>
+          <p class="section-intro">I am grateful to have demonstrated tangible growth throughout my past work experience. The entries below tell the story of my work history.</p>
+        </div>
+        <div class="experience-list">
+          <article class="experience reveal">
+            <div class="experience-date">Dec 2022 – Present</div>
+            <div>
+              <h3>IT Systems Administrator</h3>
+              <div class="company">The Computer Company, Inc. · Cromwell, CT</div>
+              <p>PLACEHOLDER Summarize the environment you supported, your scope of responsibility and the teams or users you worked with.</p>
+              <ul><li>PLACEHOLDER [Key responsibility, platform or service you administered]</li><li>PLACEHOLDER [Project, improvement or operational achievement]</li><li>PLACEHOLDER [A measurable result, scale or impact where possible]</li></ul>
+            </div>
+          </article>
+          <article class="experience reveal">
+            <div class="experience-date">Sept 2019 – Dec 2022</div>
+            <div>
+              <h3>Network Technician</h3>
+              <div class="company">End-Game Strategy, Inc. · Berlin, CT</div>
+              <p>I was a part of a small team supporting a 24/7 business handling healthcare data. My time was spent ensuring that the data was secure at rest and in transit, and that the company was protected at all times through policy and procedure.</p>
+              <ul><li>Oversaw, designed, and maintained core on-site network infrastructure.</li><li>Maintained accurate and verbose asset inventory documentation.</li><li>Updated and maintained internal IT security policy and procedures.</li><li>Collaborated with executive staff and outside vendors to maintain and ensure HITRUST/HIPAA security compliance with best industry practices.</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="certifications">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <div><p class="section-kicker">Professional development</p><h2>Certifications & learning</h2></div>
+          <p class="section-intro">I am proud of my ongoing education and earned certifications. These keep me up-to-date and on top of the current IT landscape.</p>
+        </div>
+        <div class="cert-grid">
+          <div class="cert reveal"><strong>A+</strong><span>CompTIA · Jul 2019</span></div>
+          <div class="cert reveal"><strong>Network+</strong><span>CompTIA · Apr 2019</span></div>
+          <div class="cert reveal"><strong>MCSA: Windows 10</strong><span>Microsoft · Jan 2019</span></div>
+          <div class="cert reveal"><strong>Microsoft Certified Professional</strong><span>Microsoft · Jan 2019</span></div>
+          <div class="cert reveal"><strong>Microsoft 365: Fundamentals</strong><span>Microsoft · Oct 2025</span></div>
+          <div class="cert reveal"><strong>Security, Compliance, and Identity Fundamentals</strong><span>Microsoft · Nov 2025</span></div>
+          <div class="cert reveal"><strong>Identity and Access Administrator Associate</strong><span>Microsoft · In progress</span></div>
+        </div>
+      </div>
+    </section>
+
+  <div class="contact-modal" id="contact-modal" aria-hidden="true">
+    <section class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-describedby="contact-modal-description">
+      <button class="contact-close" type="button" aria-label="Close contact form" data-contact-close>×</button>
+      <p class="section-kicker">Professional inquiries</p>
+      <h2 id="contact-modal-title">Let's connect.</h2>
+      <p class="contact-dialog-intro" id="contact-modal-description">Send a message and I'll get back to you as soon as I can.</p>
+      <form class="contact-form" id="contact-form">
+        <label>Name<input name="name" type="text" autocomplete="name" minlength="2" maxlength="100" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+        <label>Subject<input name="subject" type="text" maxlength="120" required></label>
+        <label>Message<textarea name="message" minlength="10" maxlength="5000" required></textarea></label>
+        <label class="hp-field" aria-hidden="true">Leave this field empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+        <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-action="contact" data-theme="dark"></div>
+        <button class="button button-primary" id="contact-submit" type="submit">Send message <span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
+        <p class="contact-privacy">Your email address is used only to reply to your message. It is not displayed on this website.</p>
+      </form>
+    </section>
+  </div>
+
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> DVigezzi. All rights reserved.</span>
+      <div class="socials">
+
+        <a href="https://www.linkedin.com/in/Daniel-Vigezzi" aria-label="LinkedIn Profile">LinkedIn</a>
+        <a href="https://github.com/dvigezzi" aria-label="GitHub Profile">GitHub</a>
+      </div>
+      <a href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+      menuButton.textContent = isOpen ? '×' : '☰';
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation');
+        menuButton.textContent = '☰';
+      });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add('visible'));
+    }
+
+
+    // Contact modal and secure Worker submission.
+    const CONTACT_API_URL = 'https://dvigezzi-contact.YOUR_WORKER_SUBDOMAIN.workers.dev/contact';
+    const contactModal = document.getElementById('contact-modal');
+    const contactForm = document.getElementById('contact-form');
+    const contactStatus = document.getElementById('contact-status');
+    const contactSubmit = document.getElementById('contact-submit');
+    let lastContactTrigger = null;
+
+    function openContactModal(event) {
+      if (event) event.preventDefault();
+      lastContactTrigger = event?.currentTarget || document.activeElement;
+      contactModal.classList.add('open');
+      contactModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      window.setTimeout(() => contactForm.querySelector('input[name="name"]').focus(), 40);
+    }
+    function closeContactModal() {
+      contactModal.classList.remove('open');
+      contactModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastContactTrigger && typeof lastContactTrigger.focus === 'function') lastContactTrigger.focus();
+    }
+    document.querySelectorAll('.contact-trigger, [data-contact-open]').forEach(el => el.addEventListener('click', openContactModal));
+    document.querySelector('[data-contact-close]').addEventListener('click', closeContactModal);
+    contactModal.addEventListener('click', event => { if (event.target === contactModal) closeContactModal(); });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && contactModal.classList.contains('open')) closeContactModal();
+      if (event.key === 'Tab' && contactModal.classList.contains('open')) {
+        const focusable = [...contactModal.querySelectorAll('button:not(:disabled), input:not([tabindex="-1"]), textarea, [tabindex="0"]')];
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    });
+
+    contactForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      contactStatus.textContent = '';
+      contactStatus.className = 'form-status';
+      if (CONTACT_API_URL.includes('YOUR_WORKER_SUBDOMAIN')) {
+        contactStatus.textContent = 'The contact form is not configured yet. Please use the website owner’s alternate contact method.';
+        contactStatus.classList.add('error');
+        return;
+      }
+      const formData = new FormData(contactForm);
+      const turnstileToken = formData.get('cf-turnstile-response');
+      if (!turnstileToken) {
+        contactStatus.textContent = 'Please complete the spam protection check.';
+        contactStatus.classList.add('error');
+        return;
+      }
+      const payload = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        website: formData.get('website'),
+        turnstileToken,
+      };
+      contactSubmit.disabled = true;
+      contactSubmit.textContent = 'Sending…';
+      try {
+        const response = await fetch(CONTACT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.success) throw new Error(result.error || 'Unable to send your message. Please try again.');
+        contactStatus.textContent = 'Thanks — your message has been sent.';
+        contactStatus.classList.add('success');
+        contactForm.reset();
+        if (window.turnstile) window.turnstile.reset();
+      } catch (error) {
+        contactStatus.textContent = error.message || 'Something went wrong. Please try again.';
+        contactStatus.classList.add('error');
+        if (window.turnstile) window.turnstile.reset();
+      } finally {
+        contactSubmit.disabled = false;
+        contactSubmit.innerHTML = 'Send message <span aria-hidden="true">↗</span>';
+      }
+    });
+
+  </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</body>
+</html>
