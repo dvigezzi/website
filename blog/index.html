@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Technical notes, guides and projects from DVigezzi."><meta name="theme-color" content="#090909">
+  <title>Blog | DVigezzi</title><link rel="stylesheet" href="/blog/assets/styles.css">
+</head>
+<body>
+<header class="site-header"><nav class="nav wrap"><a class="brand" href="/">D<span>.</span>Vigezzi</a><div class="nav-links"><a href="/">Portfolio</a><a href="/blog/">Blog</a><a href="/blog/admin/?login=1">Sign in</a></div></nav></header>
+<main class="wrap">
+  <section class="hero"><div class="eyebrow">DVigezzi / Journal</div><h1>Notes from the <span class="accent">field.</span></h1><p>Technical write-ups, lessons learned, practical guides and projects across systems administration, infrastructure, cloud and security.</p></section>
+  <div id="view-list"><div class="toolbar"><div class="kicker">Latest articles</div><span id="count" class="status"></span></div><section id="posts" class="post-list" aria-live="polite"><p class="status">Loading articles…</p></section></div>
+  <article id="article-view" class="article hidden"><a href="/blog/" class="kicker">← All articles</a><div id="article-content"></div></article>
+</main>
+<footer class="site-footer"><div class="wrap">© <span id="year"></span> DVigezzi · <a href="/">Back to portfolio</a></div></footer>
+<script type="module">
+import { config } from "/blog/assets/config.js";
+import { marked } from "https://cdn.jsdelivr.net/npm/marked@15/+esm";
+import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify@3/+esm";
+const $ = s => document.querySelector(s); $('#year').textContent = new Date().getFullYear();
+const api = `${config.apiBaseUrl}/api/posts`;
+const date = value => value ? new Date(value).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}) : '';
+function safeMarkdown(md){ return DOMPurify.sanitize(marked.parse(md || '')); }
+async function load(){
+  const slug = new URLSearchParams(location.search).get('post');
+  try {
+    if(slug){
+      const res=await fetch(`${api}/${encodeURIComponent(slug)}`); const data=await res.json(); if(!res.ok) throw new Error(data.error||'Article not found.');
+      $('#view-list').classList.add('hidden'); $('#article-view').classList.remove('hidden');
+      $('#article-content').innerHTML=`<div class="meta"><span>${date(data.published_at)}</span><span>${escapeHtml(data.category||'General')}</span></div><h1>${escapeHtml(data.title)}</h1><p class="status">${escapeHtml(data.excerpt||'')}</p><div class="article-body">${safeMarkdown(data.content)}</div>`;
+      document.title=`${data.title} | DVigezzi`;
+    } else {
+      const res=await fetch(api); const data=await res.json(); if(!res.ok) throw new Error(data.error||'Unable to load articles.');
+      $('#count').textContent=`${data.posts.length} ${data.posts.length===1?'article':'articles'}`;
+      if(!data.posts.length){$('#posts').innerHTML='<div class="panel empty">No articles have been published yet. Check back soon.</div>';return;}
+      $('#posts').innerHTML=data.posts.map(p=>`<a class="post-card" href="/blog/?post=${encodeURIComponent(p.slug)}"><div class="meta"><span>${date(p.published_at)}</span><span>${escapeHtml(p.category||'General')}</span></div><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.excerpt||'Read the article')}</p></a>`).join('');
+    }
+  }catch(e){const target=slug?$('#article-content'):$('#posts');target.innerHTML=`<div class="panel error">${escapeHtml(e.message)}<p><a href="/blog/">Return to the blog</a></p></div>`;}
+}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+load();
+</script>
+</body></html>

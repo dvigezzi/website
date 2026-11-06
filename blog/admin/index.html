@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090909"><title>Blog administration | DVigezzi</title><link rel="stylesheet" href="/blog/assets/styles.css"></head>
+<body>
+<header class="site-header"><nav class="nav wrap"><a class="brand" href="/">D<span>.</span>Vigezzi</a><div class="nav-links"><a href="/">Portfolio</a><a href="/blog/">Public blog</a><a href="/blog/admin/">Administration</a></div></nav></header>
+<main class="wrap admin-main">
+  <div class="hero" style="padding-top:15px"><div class="eyebrow">Private workspace</div><h1>Blog <span class="accent">admin.</span></h1><p>Sign in with your Microsoft 365 account to create, edit and publish articles.</p></div>
+  <div id="config-warning" class="config-warning hidden"></div>
+  <section id="signed-out" class="panel"><h2>Administrator sign-in</h2><p class="status">Access is restricted to the account configured on the blog API.</p><div class="actions"><button id="sign-in" class="button primary">Sign in with Microsoft ↗</button><a class="button" href="/blog/">View public blog</a></div><p id="auth-status" class="status" role="status"></p></section>
+  <section id="workspace" class="hidden">
+    <div class="toolbar"><div><div class="kicker">Authenticated session</div><strong id="account-label"></strong><p id="authorization-status" class="status"></p></div><button id="sign-out" class="button">Sign out</button></div>
+    <div id="denied" class="config-warning hidden">This Microsoft account is not authorized to administer this blog. Sign out and use the designated administrator account.</div>
+    <div id="editor-area" class="admin-grid hidden">
+      <section class="panel"><div class="kicker" id="form-heading">New article</div><form id="post-form">
+        <input id="post-id" type="hidden">
+        <label class="field">Title<input id="title" maxlength="160" required></label>
+        <label class="field">URL slug<input id="slug" maxlength="180" required><small>Lowercase letters, numbers and hyphens.</small></label>
+        <label class="field">Category<input id="category" maxlength="60" placeholder="Systems administration"></label>
+        <label class="field">Short excerpt<textarea id="excerpt" rows="3" maxlength="300"></textarea></label>
+        <label class="field">Article content (Markdown)<textarea id="content" required placeholder="# Article title\n\nWrite your article here…"></textarea></label>
+        <label class="field">Tags<input id="tags" placeholder="Microsoft 365, PowerShell, Networking"></label>
+        <label class="field">Publication status<select id="status"><option value="draft">Save as draft</option><option value="published">Publish publicly</option></select></label>
+        <div class="actions"><button class="button primary" type="submit" id="save">Save article</button><button class="button" type="button" id="new-post">Clear form</button></div><p id="form-status" class="status" role="status"></p>
+      </form></section>
+      <aside class="panel"><div class="kicker">Manage articles</div><div id="admin-posts" class="status">Loading…</div></aside>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="wrap">© <span id="year"></span> DVigezzi · <a href="/blog/">Public blog</a></div></footer>
+<script type="module" src="/blog/assets/admin.js"></script>
+</body></html>
