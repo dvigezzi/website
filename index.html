@@ -48,6 +48,8 @@
     .nav-links a { color: var(--muted); font-size: .91rem; transition: color .2s ease; }
     .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); }
     .nav-cta { padding: 10px 16px; border: 1px solid rgba(239,48,56,.55); border-radius: 999px; color: var(--ink) !important; }
+    .nav-login { border-color: var(--accent); background: var(--accent); color: #fff !important; }
+    .nav-login:hover, .nav-login:focus-visible { background: #d9232b; border-color: #d9232b; }
     .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); cursor: pointer; }
 
     .hero { padding: 122px 0 112px; max-width: var(--max-width); }
@@ -235,6 +237,8 @@
         <li><a href="#skills">Technical skills</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#certifications">Certifications</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a class="nav-cta nav-login" href="/blog/admin/?login=1">Sign in ↗</a></li>
         <li><a class="nav-cta contact-trigger" href="#contact">Contact ↗</a></li>
       </ul>
     </nav>
